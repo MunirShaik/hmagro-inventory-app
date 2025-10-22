@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::content})">
+<section class="container"  th:fragment="content">
+  <div class="page-header">
+    <h1>Categories</h1>
+    <p class="sub">Manage inventory categories</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>All Categories</h3>
+      <ul class="list">
+        <li th:each="cat : ${categories}">
+          <a th:href="@{|/inventory/categories/${cat.id}|}" class="link-card">
+            <div><strong th:text="${cat.name}">Category Name</strong></div>
+            <div class="muted" th:text="${cat.description}">desc</div>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3 id="add">Add Category</h3>
+      <form th:action="@{/inventory/categories}" th:object="${categoryForm}" method="post" class="form">
+        <label>Category name
+          <input type="text" th:field="*{name}" placeholder="Mild Steel Materials" required/>
+        </label>
+        <label>Description
+          <textarea th:field="*{description}" rows="3"></textarea>
+        </label>
+        <div class="form-actions">
+          <button class="btn primary" type="submit">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</html>

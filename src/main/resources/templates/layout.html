@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:fragment="layout(content)">
+<head>
+  <meta charset="UTF-8">
+  <title>HM Agro Inventory</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">HM Agro <span class="muted">Inventory</span></div>
+      <nav class="nav">
+        <a th:href="@{/inventory/categories}">Categories</a>
+        <a th:href="@{|/inventory/categories#add|}">Add Category</a>
+      </nav>
+    </header>
+
+    <main class="main">
+      <!-- Here the child template fragment will be inserted -->
+      <div th:insert="${content}"></div>
+    </main>
+
+    <footer class="footer">
+      © HM Agro • Inventory Manager
+    </footer>
+  </div>
+</body>
+</html>
