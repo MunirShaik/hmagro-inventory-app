@@ -1,52 +1,85 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: layout(~{::content})">
-<section class="container"   th:fragment="content">
-  <div class="page-header">
-    <h1 th:text="${category.name}">Category</h1>
-    <p class="sub" th:text="${category.description}">desc</p>
-  </div>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout(~{::content})">
+<!-- ✅ Custom per-page CSS -->
+<th:block th:fragment="headContent">
+	<style>
+		.material-cell .material-name {
+			font-weight: 700;
+			color: #111111;
+			display: block;
+		}
 
-  <div class="grid">
-    <div class="card wide">
-      <h3>Materials</h3>
-      <table class="table">
-        <thead>
-          <tr><th>Name</th><th>SKU</th><th>Qty</th><th>Unit</th><th>Location</th><th>Actions</th></tr>
-        </thead>
-        <tbody>
-          <tr th:each="m : ${materials}">
-            <td th:text="${m.name}">MS Flat</td>
-            <td th:text="${m.sku}">SKU</td>
-            <td th:text="${m.quantity}">0</td>
-            <td th:text="${m.unit}">kg</td>
-            <td th:text="${m.location}">Rack</td>
-            <td>
-              <a th:href="@{|/inventory/materials/${m.id}/edit|}" class="btn small">Edit</a>
-              <form th:action="@{|/inventory/materials/${m.id}/delete|}" method="post" style="display:inline">
-                <button type="submit" class="btn small danger" onclick="return confirm('Delete material?')">Delete</button>
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+		.material-cell .material-desc {
+			font-size: 0.9em;
+			color: #6b7280;
+			display: block;
+			margin-top: 2px;
+		}
+	</style>
+</th:block>
+<section class="container" th:fragment="content">
+	<div class="page-header">
+		<h1 th:text="${category.name}">Category</h1>
+		<p class="sub" th:text="${category.description}">desc</p>
+	</div>
 
-    <div class="card">
-      <h3>Add Material</h3>
-      <form th:action="@{|/inventory/categories/${category.id}/materials|}" th:object="${materialForm}" method="post" class="form">
-        <label>Name <input type="text" th:field="*{name}" required/></label>
-        <label>SKU <input type="text" th:field="*{sku}" /></label>
-        <label>Unit <input type="text" th:field="*{unit}" placeholder="kg / meter / piece"/></label>
-        <label>Quantity <input type="number" step="0.01" th:field="*{quantity}" value="0"/></label>
-        <label>Min Quantity <input type="number" step="0.01" th:field="*{minQuantity}"/></label>
-        <label>Location <input type="text" th:field="*{location}"/></label>
-        <label>Notes <textarea th:field="*{notes}"></textarea></label>
-        <div class="form-actions">
-          <button class="btn primary" type="submit">Add Material</button>
-        </div>
-      </form>
-    </div>
-  </div>
+	<div class="grid">
+		<div class="card wide">
+			<h3>Materials</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>SKU</th>
+						<th>Qty</th>
+						<th>Unit</th>
+						<th>Location</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="m : ${materials}">
+						<!--            <td th:text="${m.name}">MS Flat</td>-->
+						<td class="material-cell">
+						        <span th:text="${m.name}" class="material-name"></span>
+						        <span th:if="${m.description}" th:text="${m.description}" class="material-desc"></span>
+						      </td>
+						
+			
+						<td th:text="${m.sku}">SKU</td>
+						<td th:text="${m.quantity}">0</td>
+						<td th:text="${m.unit}">kg</td>
+						<td th:text="${m.location}">Rack</td>
+						<td>
+							<a th:href="@{|/inventory/materials/${m.id}/edit|}" class="btn small">Edit</a>
+							<form th:action="@{|/inventory/materials/${m.id}/delete|}" method="post"
+								style="display:inline">
+								<button type="submit" class="btn small danger"
+									onclick="return confirm('Delete material?')">Delete</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="card">
+			<h3>Add Material</h3>
+			<form th:action="@{|/inventory/categories/${category.id}/materials|}" th:object="${materialForm}"
+				method="post" class="form">
+				<label>Name <input type="text" th:field="*{name}" required /></label>
+				<label>SKU <input type="text" th:field="*{sku}" /></label>
+				<label>Unit <input type="text" th:field="*{unit}" placeholder="kg / meter / piece" /></label>
+				<label>Quantity <input type="number" step="0.01" th:field="*{quantity}" value="0" /></label>
+				<label>Min Quantity <input type="number" step="0.01" th:field="*{minQuantity}" /></label>
+				<label>Location <input type="text" th:field="*{location}" /></label>
+				<label>Notes <textarea th:field="*{notes}"></textarea></label>
+				<div class="form-actions">
+					<button class="btn primary" type="submit">Add Material</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </section>
+
 </html>
